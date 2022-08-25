@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>963868862254-pnrg7k7p7h6e09ho6kru1s26n9b43lhn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.963868862254-pnrg7k7p7h6e09ho6kru1s26n9b43lhn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC_SXv1y3uRW3uyt3MCsR__3s1LvesIEg4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>963868862254</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>hodgman.id.au.ourrecipes</string>
+	<key>PROJECT_ID</key>
+	<string>our-shared-recipes</string>
+	<key>STORAGE_BUCKET</key>
+	<string>our-shared-recipes.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:963868862254:ios:ffdf1c41dac2efa8e0fcbf</string>
+</dict>
+</plist>

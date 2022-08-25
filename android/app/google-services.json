@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "963868862254",
+    "project_id": "our-shared-recipes",
+    "storage_bucket": "our-shared-recipes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963868862254:android:fe2a12bc87ee5836e0fcbf",
+        "android_client_info": {
+          "package_name": "hodgman.id.au.ourrecipes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "963868862254-949fctmrkk9il92u6vfpq6pfcs0abtvv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChn71ApTgCG_EPaTf0RVqcnLpKgzZ2fH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "963868862254-949fctmrkk9il92u6vfpq6pfcs0abtvv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "963868862254-pnrg7k7p7h6e09ho6kru1s26n9b43lhn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "hodgman.id.au.ourrecipes"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
