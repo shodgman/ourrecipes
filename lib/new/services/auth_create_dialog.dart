@@ -24,9 +24,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _urlController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
-  final TextfieldTagsController _categoryTags = TextfieldTagsController();
   final TextfieldTagsController _allergyTags = TextfieldTagsController();
   final TextfieldTagsController _ingredientTags = TextfieldTagsController();
+  final TextfieldTagsController _categoryTags = TextfieldTagsController();
   final List<String> _availableTags = [
     'gluten free',
     'vegan',
@@ -37,11 +37,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _nameController.dispose();
     _urlController.dispose();
-    _categoryTags.dispose();
     _descController.dispose();
     _categoryTags.dispose();
     _allergyTags.dispose();

@@ -24,6 +24,7 @@ class AuthMainForm extends StatelessWidget {
     required this.registerAccount,
     required this.signOut,
     required this.addRecipe,
+    required this.setAllergyExp,
   }) : super(key: key);
 //  The calling parameters in detail
   final ApplicationLoginState loginState;
@@ -49,6 +50,7 @@ class AuthMainForm extends StatelessWidget {
   final void Function() signOut;
   final void Function(Recipe addRecipe, void Function(Exception e) error)
       addRecipe;
+  final void Function(List<String> newExp) setAllergyExp;
 // End of Parameters
   @override
   Widget build(BuildContext context) {
@@ -100,7 +102,7 @@ class AuthMainForm extends StatelessWidget {
         });
 
       case ApplicationLoginState.loggedInFilter:
-        return const AdjustFilterSettings();
+        return AdjustFilterSettings();
 
       default:
         return Row(
@@ -163,7 +165,7 @@ class AuthMsgForm extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
       child: Text(
         message,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.black87,
           fontSize: 24,
         ),

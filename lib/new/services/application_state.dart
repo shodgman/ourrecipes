@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -137,6 +136,9 @@ class ApplicationState extends ChangeNotifier {
       await credential.user!.updateDisplayName(displayName);
       email = emailP;
       uid = credential.user!.uid;
+      // TODO Create User record
+      addUserRecord(
+          userId: credential.user!.uid, name: displayName, email: emailP);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
@@ -208,47 +210,96 @@ class ApplicationState extends ChangeNotifier {
 
   // Recipe definitions
 // Recipes
+  CollectionReference dbRecipesId =
+      FirebaseFirestore.instance.collection('recipes');
   StreamSubscription<QuerySnapshot>? _recipesSubscription;
   List<Recipe> _recipeList = [];
-
   List<Recipe> get recipeList => _recipeList;
+
+  // Recipe name search
+  String _searchTheName = '';
+  String get searchTheName => _searchTheName;
+  void setSearchTheName(String newValue) {
+    _searchTheName = newValue;
+  }
+
+  // Recipe Description Search
+  String _searchTheDescription = '';
+  String get searchTheDescription => _searchTheDescription;
+  void setSearchTheDescription(String newValue) {
+    _searchTheDescription = newValue;
+  }
+
+  // Allergy Selections
+  List<String> _allergyExp = [];
+  List<String> get allergyExp => _allergyExp;
+  void setAllergyExp(List<String> newExp) {
+    _allergyExp = newExp;
+    notifyListeners();
+  }
+
+  // Ingredients Selections
+  List<String> _ingredientExp = [];
+  List<String> get ingredientExp => _ingredientExp;
+  void setIngredientExp(List<String> newExp) {
+    _ingredientExp = newExp;
+    notifyListeners();
+  }
+
+  // Category Selections
+  List<String> _categoryExp = [];
+  List<String> get categoryExp => _categoryExp;
+  void setCategoryExp(List<String> newExp) {
+    _categoryExp = newExp;
+    notifyListeners();
+  }
+
+  void buildRecipeList(List<QueryDocumentSnapshot> docList) {
+    //print('There are ${docList.length} Recipes');
+    _recipeList = [];
+    for (final document in docList) {
+      _recipeList.add(
+        Recipe.fromDocSnapshot(document as DocumentSnapshot<Map>),
+      );
+    }
+    notifyListeners();
+  }
+
+  // Construct document snapshot query
+  void recipeInitSubscription() {
+    Query myQ = FirebaseFirestore.instance.collection('recipes');
+    if (searchTheName.isNotEmpty) {
+      // myQ = myQ.where('name', whereIn: searchTheName);
+    }
+
+    if (searchTheDescription.isNotEmpty) {}
+
+    if (allergyExp.isNotEmpty) {
+      print('allergy selection is $allergyExp');
+      myQ = myQ.where('allergyTags', arrayContainsAny: allergyExp);
+    }
+    if (ingredientExp.isNotEmpty) {
+      print('ingredient selection is $ingredientExp');
+      myQ = myQ.where('ingredientTags', arrayContainsAny: ingredientExp);
+    }
+    if (categoryExp.isNotEmpty) {
+      print('category selection is $categoryExp');
+      myQ = myQ.where('categoryTags', arrayContainsAny: categoryExp);
+    }
+    _recipesSubscription = myQ.snapshots().listen((snapshot) {
+      buildRecipeList(snapshot.docs);
+    });
+    _loginState = ApplicationLoginState.loggedIn;
+  }
 
   // Initialise Recipe Data
   void recipeDataInit() {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
-        print('Recipe Data Init - Logged In');
-        _loginState = ApplicationLoginState.loggedIn;
-        _recipesSubscription = FirebaseFirestore.instance
-            .collection('recipes')
-            .orderBy('timestamp', descending: true)
-            .snapshots()
-            .listen((snapshot) {
-          print('There are ${snapshot.docs.length} Recipes');
-          _recipeList = [];
-          for (final document in snapshot.docs) {
-            //Map tmp1 = document.data();
-            //print(tmp1);
-
-            _recipeList.add(
-              Recipe.fromDocSnapshot(document),
-
-              //Recipe.fromMap(tmp1),
-              /*            recipeId: document.data()['id'] as String,
-                recipeName: document.data()['name'] as String,
-                recipeUrl: document.data()['url'] as String,
-                recipeDesc: document.data()['description'] as String,
-                allergyTags: document.data()['allergyTags'].cast<String>(),
-                categoryTags: document.data()['categoryTags'].cast<String>(),
-                ingredientTags:
-                    document.data()['ingredientTags'].cast<String>(),  */
-              // ),
-            );
-          }
-          notifyListeners();
-        });
+        //print('Recipe Data Init - Logged In');
+        recipeInitSubscription();
       } else {
-        print('Recipe Data Init - NOT Logged In');
+        //print('Recipe Data Init - NOT Logged In');
         _loginState = ApplicationLoginState.loggedOut;
         _recipeList = [];
         _recipesSubscription?.cancel();
@@ -268,8 +319,10 @@ class ApplicationState extends ChangeNotifier {
           .collection('recipes')
           .add(<String, dynamic>{
         'name': addRecipe.recipeName,
+        'nameArray': addRecipe.recipeName.split(' '),
         'url': addRecipe.recipeUrl,
         'description': addRecipe.recipeDesc,
+        'descArray': addRecipe.recipeDesc.split(' '),
         'allergyTags': addRecipe.allergyTags,
         'ingredientTags': addRecipe.ingredientTags,
         'categoryTags': addRecipe.categoryTags,
@@ -282,6 +335,34 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 }
+
+// End of Recipe functions
+
+// Return the User ID record
+Future<DocumentReference?> addUserRecord(
+    {required String userId, String name = '', String email = ''}) async {
+  // Check if it exists
+  QuerySnapshot myDoc = await FirebaseFirestore.instance
+      .collection('users')
+      .where('userId', isEqualTo: userId)
+      .get();
+  if (myDoc.size > 0) {
+    // Already exists
+    return myDoc.docs[1].reference;
+  } else {
+    // Create user record
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .add(<String, dynamic>{
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'name': name,
+      'userId': userId,
+      'email': email,
+    });
+  }
+}
+
+// Guestbook Functions
 
 class GuestBookMessage {
   GuestBookMessage({required this.name, required this.message});

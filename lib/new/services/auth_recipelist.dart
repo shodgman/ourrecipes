@@ -25,7 +25,7 @@ class AuthRecipeList extends StatelessWidget {
             for (var recipe in appState.recipeList)
               RecipeCard(showRecipe: recipe),
             // Dummy blank end of list
-            const SizedBox(height: 60.0),
+            const SizedBox(height: 80.0),
           ],
         ),
       ),

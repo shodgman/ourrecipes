@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
     return Consumer<ApplicationState>(
         builder: (context, appState, _) => Scaffold(
               appBar: AppBar(
-                title: Text('Shared Recipes'),
+                title: Text('Shared Recipes 0.2'),
                 actions: appBarActionsList(
                     loginState: appState.loginState,
                     updateLoginState: appState.updateLoginState,
@@ -44,6 +44,7 @@ class HomeScreen extends StatelessWidget {
                       registerAccount: appState.registerAccount,
                       signOut: appState.signOut,
                       addRecipe: appState.addRecipeToDatabase,
+                      setAllergyExp: appState.setAllergyExp,
                     ),
                     Divider(
                       color: Colors.green,
