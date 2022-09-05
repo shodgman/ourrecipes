@@ -30,6 +30,8 @@ class _AdjustFilterSettingsState extends State<AdjustFilterSettings> {
     super.dispose();
     _categoryTags.dispose();
     _ingredientTags.dispose();
+    _nameController.dispose();
+    _descController.dispose();
   }
 
   @override
