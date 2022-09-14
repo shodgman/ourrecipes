@@ -6,6 +6,7 @@ import 'package:ourrecipes/new/widgets/pick_tags_field.dart';
 
 import 'package:ourrecipes/new/services/application_state.dart';
 import 'package:ourrecipes/new/widgets/widgets.dart';
+import 'package:ourrecipes/new/widgets/my_tags_dialog.dart';
 import 'package:ourrecipes/new/widgets/build_filterchip_widget.dart';
 
 class AdjustFilterSettings extends StatefulWidget {
@@ -47,7 +48,34 @@ class _AdjustFilterSettingsState extends State<AdjustFilterSettings> {
             const SizedBox(
               height: 20,
             ),
-            const Text('Recipe Name:'),
+            const Header('Select the tags that you are looking for'),
+            const Header('by Dietary restrictions OR Ingredients OR Category'),
+            const Divider(
+              height: 1,
+            ),
+            ExpansionTile(
+              backgroundColor: Colors.yellow[50],
+              title: const Text(
+                'Search by a word from the Recipe Name:',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Coffee is a brewed drink prepared from roasted coffee beans, the seeds of berries from certain Coffee species.',
+                    style: TextStyle(fontSize: 15),
+                    maxLines: 3,
+                    softWrap: true,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+              ],
+            ),
             TextField(
               controller: _nameController,
             ),
@@ -60,8 +88,6 @@ class _AdjustFilterSettingsState extends State<AdjustFilterSettings> {
               controller: _descController,
             ),
 
-            const Header('Select the tags that you are looking for'),
-            const Header('by Dietary restrictions OR Ingredients OR Category'),
             // Allergy Tags
             SizedBox(
               height: 50,

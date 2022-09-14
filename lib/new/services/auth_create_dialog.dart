@@ -61,107 +61,104 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
         child: Consumer<ApplicationState>(
           builder: (context, appState, _) => Form(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Header('Enter the Full Recipe Details'),
-                  // Recipe Name
-                  ReusableTextEntryField(
-                    preTextValue: 'Recipe Name',
-                    icon: Icons.text_fields_outlined,
-                    isPasswordType: false,
-                    textController: _nameController,
-                    validator: validateRecipeName,
-                    autoFocus: false,
-                  ),
-                  const Divider(
-                    thickness: 2.0,
-                  ),
-                  // URL
-                  ReusableTextEntryField(
-                    preTextValue: 'The URL of the Recipe Details',
-                    icon: Icons.link_outlined,
-                    isPasswordType: false,
-                    textController: _urlController,
-                    validator: validateRecipeUrl,
-                  ),
-                  const Divider(
-                    thickness: 2.0,
-                  ),
-                  ReusableTextEntryField(
-                    preTextValue: 'Description of the recipe if needed',
-                    icon: Icons.text_fields_outlined,
-                    isPasswordType: false,
-                    textController: _descController,
-                    validator: validateRecipeDesc,
-                  ),
-                  const Divider(
-                    thickness: 2.0,
-                  ),
-                  // General Description
-                  // Key Ingredients
-                  // Gluten Free Flag
-                  // Vegetarian Flag
-                  // Vegan Flag
-                  EnterAllergyTags(
-                    tagsController: _allergyTags,
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Header('Enter the Full Recipe Details'),
+                // Recipe Name
+                ReusableTextEntryField(
+                  preTextValue: 'Recipe Name',
+                  icon: Icons.text_fields_outlined,
+                  isPasswordType: false,
+                  textController: _nameController,
+                  validator: validateRecipeName,
+                  autoFocus: false,
+                ),
+                const Divider(
+                  thickness: 2.0,
+                ),
+                // URL
+                ReusableTextEntryField(
+                  preTextValue: 'The URL of the Recipe Details',
+                  icon: Icons.link_outlined,
+                  isPasswordType: false,
+                  textController: _urlController,
+                  validator: validateRecipeUrl,
+                ),
+                const Divider(
+                  thickness: 2.0,
+                ),
+                ReusableTextEntryField(
+                  preTextValue: 'Description of the recipe if needed',
+                  icon: Icons.text_fields_outlined,
+                  isPasswordType: false,
+                  textController: _descController,
+                  validator: validateRecipeDesc,
+                ),
+                const Divider(
+                  thickness: 2.0,
+                ),
+                // General Description
+                // Key Ingredients
+                // Gluten Free Flag
+                // Vegetarian Flag
+                // Vegan Flag
+                EnterAllergyTags(
+                  tagsController: _allergyTags,
+                  initialList: const [],
+                ),
+                // Ingredients Tag
+                PickTagsField(
+                    tagsController: _ingredientTags,
                     initialList: const [],
-                  ),
-                  // Ingredients Tag
-                  PickTagsField(
-                      tagsController: _ingredientTags,
-                      initialList: const [],
-                      selectionList: const [],
-                      tagPrompt: 'add key ingredient tags',
-                      allowAddingTags: true),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  // Category and general tags
-                  PickTagsField(
-                      tagsController: _categoryTags,
-                      initialList: const [],
-                      selectionList: _availableTags,
-                      tagPrompt: 'add category and descriptive tags',
-                      allowAddingTags: true),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      bool? valid = _formKey.currentState?.validate();
-                      //print('Add Recipe: $valid');
-                      if ((valid != null) && (valid)) {
-                        List<String>? allergy = _allergyTags.getTags;
-                        List<String>? category = _categoryTags.getTags;
-                        List<String>? ingredients = _ingredientTags.getTags;
-                        try {
-                          widget.addRecipe(
-                            Recipe(
-                              recipeUrl: _urlController.text,
-                              recipeName: _nameController.text,
-                              recipeDesc: _descController.text,
-                              allergyTags: allergy ?? [],
-                              categoryTags: category ?? [],
-                              ingredientTags: ingredients ?? [],
-                            ),
-                          );
-                          //print('Allergies:$allergy');
-                          //print('categories: $category');
-                        } catch (e) {
-                          _showErrorDialog(
-                              context, '*Error Adding Recipe*', e as Exception);
-                        }
-                        appState
-                            .updateLoginState(ApplicationLoginState.loggedIn);
+                    selectionList: const [],
+                    tagPrompt: 'add key ingredient tags',
+                    allowAddingTags: true),
+                const SizedBox(
+                  height: 20,
+                ),
+                // Category and general tags
+                PickTagsField(
+                    tagsController: _categoryTags,
+                    initialList: const [],
+                    selectionList: _availableTags,
+                    tagPrompt: 'add category and descriptive tags',
+                    allowAddingTags: true),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    bool? valid = _formKey.currentState?.validate();
+                    //print('Add Recipe: $valid');
+                    if ((valid != null) && (valid)) {
+                      List<String>? allergy = _allergyTags.getTags;
+                      List<String>? category = _categoryTags.getTags;
+                      List<String>? ingredients = _ingredientTags.getTags;
+                      try {
+                        widget.addRecipe(
+                          Recipe(
+                            recipeUrl: _urlController.text,
+                            recipeName: _nameController.text,
+                            recipeDesc: _descController.text,
+                            allergyTags: allergy ?? [],
+                            categoryTags: category ?? [],
+                            ingredientTags: ingredients ?? [],
+                          ),
+                        );
+                        //print('Allergies:$allergy');
+                        //print('categories: $category');
+                      } catch (e) {
+                        _showErrorDialog(
+                            context, '*Error Adding Recipe*', e as Exception);
                       }
-                    },
-                    child: const Text('SAVE RECIPE'),
-                  ),
-                ],
-              ),
+                      appState.updateLoginState(ApplicationLoginState.loggedIn);
+                    }
+                  },
+                  child: const Text('SAVE RECIPE'),
+                ),
+              ],
             ),
           ),
         ),
